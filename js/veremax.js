@@ -10,16 +10,20 @@ import { guiState, setupGui } from './control-panel.js'
 const MODELURL = '/model/tensorflowjs_model.pb'
 // const WEIGHTSURL = '/model/weights_manifest.json'
 
-let VIDEOWIDTH = 800
-let VIDEOHEIGHT = 600
-
-const ZONEOFFSET = 10
-const ZONEFACTOR = 0.7
-let ZONEWIDTH = VIDEOWIDTH * 0.5
-let ZONEHEIGHT = VIDEOHEIGHT * ZONEFACTOR
-
 const LEFTWRIST = 'LWrist'
 const RIGHTWRIST = 'RWrist'
+
+const TARGETSIZE = {
+  width: 432,
+  height: 338
+}
+const ZONEOFFSET = 10
+const ZONEFACTOR = 0.7
+
+let overlayWidth = 800
+let overlayHeight = 600
+let zoneWidth = overlayWidth * 0.5
+let zoneHeight = overlayHeight * ZONEFACTOR
 
 let openposeModel = null
 let waveCtx = null
@@ -35,16 +39,16 @@ const setUserMedia = function () {
 const resetVideoCanvasSize = function (video, canvas) {
   const size = preferredVideoSize(video)
 
-  VIDEOWIDTH = size.width
-  VIDEOHEIGHT = size.height
-  ZONEWIDTH = VIDEOWIDTH * 0.5
-  ZONEHEIGHT = VIDEOHEIGHT * ZONEFACTOR
+  overlayWidth = size.width
+  overlayHeight = size.height
+  zoneWidth = overlayWidth * 0.5
+  zoneHeight = overlayHeight * ZONEFACTOR
 
   if (canvas) {
-    canvas.setAttribute('width', VIDEOWIDTH)
-    canvas.setAttribute('height', VIDEOHEIGHT)
-    video.setAttribute('width', VIDEOWIDTH)
-    video.setAttribute('height', VIDEOHEIGHT)
+    canvas.setAttribute('width', overlayWidth)
+    canvas.setAttribute('height', overlayHeight)
+    // video.setAttribute('width', overlayWidth)
+    // video.setAttribute('height', overlayHeight)
   }
 }
 
@@ -73,8 +77,8 @@ function preprocessInput (imageOrVideoInput) {
  */
 const detectPoseInRealTime = function (video) {
   resetVideoCanvasSize(video)
-  canvas.width = VIDEOWIDTH
-  canvas.height = VIDEOHEIGHT
+  canvas.width = overlayWidth
+  canvas.height = overlayHeight
 
   async function poseDetectionFrame () {
     let inputTensor = preprocessInput(video)
@@ -83,21 +87,21 @@ const detectPoseInRealTime = function (video) {
 
     let poses = estimatePoses(outputTensor)
 
-    canvasCtx.clearRect(0, 0, VIDEOWIDTH, VIDEOHEIGHT)
+    canvasCtx.clearRect(0, 0, overlayWidth, overlayHeight)
 
     if (guiState.canvas.showVideo) {
       canvasCtx.save()
       canvasCtx.scale(-1, 1)
-      canvasCtx.translate(-VIDEOWIDTH, 0)
-      canvasCtx.drawImage(video, 0, 0, VIDEOWIDTH, VIDEOHEIGHT)
+      canvasCtx.translate(-overlayWidth, 0)
+      canvasCtx.drawImage(video, 0, 0, overlayWidth, overlayHeight)
       canvasCtx.restore()
     }
 
     if (guiState.canvas.showZones) {
       // draw left zone
-      drawBox(ZONEOFFSET, ZONEOFFSET, ZONEWIDTH, ZONEHEIGHT, canvasCtx)
+      drawBox(ZONEOFFSET, ZONEOFFSET, zoneWidth, zoneHeight, canvasCtx)
       // draw right zone
-      drawBox(ZONEWIDTH, ZONEOFFSET, VIDEOWIDTH - ZONEOFFSET, ZONEHEIGHT, canvasCtx)
+      drawBox(zoneWidth, ZONEOFFSET, overlayWidth - ZONEOFFSET, zoneHeight, canvasCtx)
     }
 
     // For each pose (i.e. person) detected in an image, loop through the poses and
@@ -163,10 +167,10 @@ const normalizePositions = function (leftWrist, rightWrist) {
   const rightZone = leftWrist
 
   const leftEdge = ZONEOFFSET
-  const verticalSplit = ZONEWIDTH
-  const rightEdge = VIDEOWIDTH - ZONEOFFSET
+  const verticalSplit = zoneWidth
+  const rightEdge = overlayWidth - ZONEOFFSET
   const topEdge = ZONEOFFSET
-  const bottomEdge = ZONEHEIGHT
+  const bottomEdge = zoneHeight
 
   let position = {
     right: {
@@ -223,7 +227,7 @@ const bindPage = async function () {
   let video
 
   try {
-    video = await loadVideo('video')
+    video = await loadVideo('video', TARGETSIZE)
     await setupGui([])
     body.className = 'ready'
     detectPoseInRealTime(video)

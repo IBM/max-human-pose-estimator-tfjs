@@ -11,8 +11,8 @@ const isSafari = function () {
  *
  * @param {Node | String} domNode - DOM Node or id of the DOM Node to load video into (default: 'video')
  */
-export async function loadVideo (domNode) {
-  const video = await setupCamera(domNode)
+export async function loadVideo (domNode, size) {
+  const video = await setupCamera(domNode, size)
   video.play()
   return video
 }
@@ -22,14 +22,13 @@ export async function loadVideo (domNode) {
  *
  * @param {Node | String} domNode - DOM Node or id of the DOM Node to load video into (default: 'video')
  */
-async function setupCamera (domNode = 'video') {
+async function setupCamera (domNode = 'video', size) {
   if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
     throw new Error('Browser API navigator.mediaDevices.getUserMedia not available')
   }
 
   const video = typeof domNode === 'string' ? document.getElementById(domNode) : domNode
 
-  const size = preferredVideoSize(null)
   video.width = size.width
   video.height = size.height
   let constraint = {

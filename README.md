@@ -120,6 +120,8 @@ To run the app locally:
 
 ## Using the app
 
+For best results use in a well-lit area with good contrast between you and the background. And stand back from the webcam so at least half of your body appears in the video.
+
 At a minimum, your browsers must allow [access to the web camera](https://caniuse.com/#feat=stream) and support the [Web Audio API](https://caniuse.com/#feat=audio-api).
 
 In addition, if it supports the [Web MIDI API](https://caniuse.com/#feat=midi), you may connect a MIDI synthesizer to your computer. If you do not have a MIDI synthesizer you can download and run a software synthesizer such as [SimpleSynth](http://notahat.com/simplesynth/).
