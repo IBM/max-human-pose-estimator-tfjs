@@ -1,0 +1,265 @@
+@charset "UTF-8";
+
+:root {
+  --red-40: #FF767C;
+  --red-10: #FFF0F1;
+  
+  --primary-back: var(--red-40);
+  --secondary-back: var(--red-10);
+
+  --height-factor: 3.5;
+  --short: calc(100vh / var(--height-factor));
+  --tall: calc(100vh - var(--short));
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  vertical-align: top;
+}
+
+body {
+  font-family: 'IBM Plex Mono', monospace;
+  height: 100vh;
+
+  background: -webkit-linear-gradient(180deg, var(--primary-back) var(--tall), var(--secondary-back) var(--tall));
+  background: -o-linear-gradient(180deg, var(--primary-back) var(--tall), var(--secondary-back) var(--tall));
+  background: -moz-linear-gradient(180deg, var(--primary-back) var(--tall), var(--secondary-back) var(--tall));
+  background: linear-gradient(180deg, var(--primary-back) var(--tall), var(--secondary-back) var(--tall));
+}
+
+header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  padding: 10px;
+  right: 0;
+}
+
+header > span {
+  font-size: small;
+}
+
+header > span:first-of-type {
+  font-size: xx-large;
+}
+
+#open-cp-btn,
+#close-cp-btn,
+#close-info-btn,
+#help-cp-link {
+  background: none;
+  border: 0px none;
+  cursor: pointer;
+  position: absolute;
+  right: 10px;
+  top: 10px;
+}
+
+#help-cp-link {
+  left: 10px;
+  right: initial;
+  top: 10px;
+}
+
+#open-cp-btn {
+  display: none;
+  right: 50px;
+  top: 15px;
+}
+
+#open-info-btn {
+  background: none;
+  border: 0px none;
+  cursor: pointer;
+  display: none;
+  position: absolute;
+  right: 20px;
+  top: 15px;
+}
+
+#open-cp-btn:hover svg,
+#open-info-btn:hover svg {
+  fill: var(--red-10);
+}
+
+body.ready #open-cp-btn,
+body.ready #open-info-btn {
+  display: initial;
+}
+
+.v-info {
+  font-size: 28px;
+  position: fixed;
+  top: calc(var(--tall) - 28px);
+  left: 0;
+  right: 0;
+}
+
+.v-info,
+.v-wrapper {
+  text-align: center;
+}
+
+.v-wrapper {
+  display: inline-block;
+  height: var(--tall);
+  position: relative;
+}
+
+main {
+  position: fixed;
+  text-align: center;
+  top: calc(var(--short) / 2);
+  left: 0;
+  right: 0;
+}
+
+body.error main {
+  display: none;
+}
+
+body.ready .v-info {
+  display: none;
+}
+
+video {
+  -moz-transform: scaleX(-1);
+  -o-transform: scaleX(-1);
+  -webkit-transform: scaleX(-1);
+  transform: scaleX(-1);
+  display: none;
+}
+
+#wave {
+  background-color: transparent;
+  height: var(--short);
+  position: absolute;
+  top: calc(100vh - var(--short) * 1.5);
+  width: 100%;
+  z-index: -1;
+}
+
+body.ready #wave {
+  background-color: var(--red-40);
+}
+
+#control-panel,
+#info-panel {
+  position: fixed;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background-color: #000;
+  color: #fff;
+}
+
+.slider {
+  overflow-x: hidden;
+  left: calc(100vw - 300px);
+
+	transition-property: all;
+	transition-duration: .5s;
+	transition-timing-function: cubic-bezier(0, 1, 0.5, 1);
+}
+.slider.closed {
+	left: 100vw;
+}
+
+.slider-container {
+  font-size: 0.75rem;
+  margin-top: 45px;
+  max-height: calc(100% - 100px);
+  overflow: auto;
+  padding: 0 5px 5px 10px;
+  width: 280px;
+}
+
+.slider-container h2:not(:first-of-type) {
+  margin-top: 20px;
+}
+
+.slider-container p {
+  margin: 5px 0 10px 5px;
+}
+
+.slider-container a,
+.slider-container a:link,
+.slider-container a:visited {
+  color: var(--primary-back);
+}
+
+.slider-container a:hover {
+  color: var(--secondary-back);
+}
+
+footer {
+  background-color: white;
+  font-size: x-small;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  padding: 10px;
+  right: 0;
+}
+
+@media only screen and (max-height: 500px) {
+  header {
+    padding: 5px;
+  }
+
+  header > span {
+    font-size: xx-small;
+  }
+  
+  header > span:first-of-type {
+    font-size: large;
+  }
+
+  .slider {
+    left: 0;
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/** dat.gui override **/
+
+.dg {
+  font-family: 'IBM Plex Sans', sans-serif;
+}
+
+.dg.main {
+  margin-top: 45px;
+}
+
+.dg.main .close-button {
+  display: none;
+}
+
+.dg .cr.string,
+.dg .cr.number,
+.dg .cr.boolean {
+  border-left: 2px solid var(--secondary-back) !important;
+}
+
+.dg .folder .cr.string,
+.dg .folder .cr.number,
+.dg .folder .cr.boolean {
+  border-left: 1px solid var(--secondary-back) !important;
+}
+
+.dg .c .slider-fg {
+  background: var(--primary-back) !important;
+}
+
+.dg .cr.number input[type=text] {
+  color: var(--primary-back) !important;
+}
