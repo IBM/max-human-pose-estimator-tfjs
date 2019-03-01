@@ -2,25 +2,40 @@
 
 Veremax is a video theremin that allows anyone to make music just by waving their arms in front of a webcam.
 
-It is based on the [Veremin](https://github.com/vabarbosa/veremin) but modified to use the [Human Pose Estimator](https://developer.ibm.com/exchanges/models/all/max-human-pose-estimator) model from the [Model Asset Exchange (MAX)](https://developer.ibm.com/exchanges/models). The Human Pose Estimator model is [converted](https://github.ibm.com/va/max-human-pose-estimator-tfjs#converting-the-model) to the [TensorFlow.js](https://js.tensorflow.org) web-friendly format. It is a deep learning model trained to detect humans and their poses in a given image. 
+It is based on the [Veremin](https://github.com/vabarbosa/veremin) but modified to use the [Human Pose Estimator](https://developer.ibm.com/exchanges/models/all/max-human-pose-estimator) model from the [Model Asset eXchange (MAX)](https://developer.ibm.com/exchanges/models). The Human Pose Estimator model is [converted](https://github.ibm.com/va/max-human-pose-estimator-tfjs#converting-the-model) to the [TensorFlow.js](https://js.tensorflow.org) web-friendly format. It is a deep learning model trained to detect humans and their poses in a given image. 
 
 The web application attaches to the video stream from your web camera. The Human Pose Estimator model is used to predict the location of your wrists within the video. The application takes the predictions and converts them to tones in the browser or to MIDI values which get sent to a connected MIDI device.
 
 Browsers must allow [access to the webcam](https://caniuse.com/#feat=stream) and support the [Web Audio API](https://caniuse.com/#feat=audio-api). Optionally, to integrate with a MIDI device the browser will need to support the [Web MIDI API](https://caniuse.com/#feat=midi) (e.g., Chrome browser version 43 or later).
 
 
-## Featured tools & technologies
+## Flow
 
-1. [MAX Human Pose Estimator](https://developer.ibm.com/exchanges/models/all/max-human-pose-estimator) - a machine learning model which detects human poses
-1. [TensorFlow.js](https://js.tensorflow.org/) - a JavaScript library for training and deploying ML models in the browser and on Node.js
-1. [Web MIDI API](https://www.w3.org/TR/webmidi) - an API supporting the MIDI protocol, enabling web applications to enumerate and select MIDI input and output devices on the client system and send and receive MIDI messages
-1. [Web Audio API](https://www.w3.org/TR/webaudio) - a high-level Web API for processing and synthesizing audio in web applications
-1. [Tone.js](https://tonejs.github.io/) - a framework for creating interactive music in the browser
+1. User stands in front of webcam and moves their arm
+1. Web application captures video frame and sends to the model
+1. Model return a prediction of the estimated poses in the frame
+1. Web application process the prediction
+1. Web application overlays the skeleton of the estimated pose on the video
+1. Web application converts position of the user's wrists from the estimated poses to MIDI note
+1. MIDI note is sent to connected MIDI device or sound is played in the browser
 
 
-## Running the application
+## Included Components
 
-You can run your own instance of Veremax in multiple ways:
+* [MAX Human Pose Estimator](https://developer.ibm.com/exchanges/models/all/max-human-pose-estimator): A machine learning model which detects human poses
+* [TensorFlow.js](https://js.tensorflow.org/): A JavaScript library for training and deploying ML models in the browser and on Node.js
+
+
+## Featured Technologies
+
+* [Web MIDI API](https://www.w3.org/TR/webmidi): An API supporting the MIDI protocol, enabling web applications to enumerate and select MIDI input and output devices on the client system and send and receive MIDI messages
+* [Web Audio API](https://www.w3.org/TR/webaudio): A high-level Web API for processing and synthesizing audio in web applications
+* [Tone.js](https://tonejs.github.io/): A framework for creating interactive music in the browser
+
+
+## Steps
+
+Ways to run the Veremax:
 
 - [Deploy to IBM Cloud](https://github.ibm.com/va/max-human-pose-estimator-tfjs#deploy-to-ibm-cloud)
 - [Run locally](https://github.ibm.com/va/max-human-pose-estimator-tfjs#run-locally)
@@ -150,9 +165,17 @@ When the conversion completes, the contents of **{web_asset_dir}** will be the w
 ## Links
 
  - Bring Machine Learning to the Browser With TensorFlow.js - [Part I](https://medium.com/ibm-watson-data-lab/bring-machine-learning-to-the-browser-with-tensorflow-js-part-i-16924457291c), [Part II](https://medium.com/ibm-watson-data-lab/bring-machine-learning-to-the-browser-with-tensorflow-js-part-ii-7555ed9a999e), [Part III](https://medium.com/ibm-watson-data-lab/bring-machine-learning-to-the-browser-with-tensorflow-js-part-iii-62d2b09b10a3)
+ - [Model Asset eXchange](https://developer.ibm.com/exchanges/models/)
  - [IBM Cloud](https://console.bluemix.net/)
  - [Getting started with the IBM Cloud CLI](https://console.bluemix.net/docs/cli/index.html#overview)
  - [Prepare the app for deployment - IBM Cloud](https://console.bluemix.net/docs/runtimes/nodejs/getting-started.html#prepare)
  - [Playing with MIDI in JavaScript](https://medium.com/swinginc/playing-with-midi-in-javascript-b6999f2913c3)
  - [Introduction to Web Audio API](https://css-tricks.com/introduction-web-audio-api)
  - Human pose estimation using OpenPose with TensorFlow - [Part 1](https://arvrjourney.com/human-pose-estimation-using-openpose-with-tensorflow-part-1-7dd4ca5c8027), [Part II](https://arvrjourney.com/human-pose-estimation-using-openpose-with-tensorflow-part-2-e78ab9104fc8)
+
+
+## License
+
+This code pattern is licensed under the Apache Software License, Version 2.  Separate third party code objects invoked within this code pattern are licensed by their respective providers pursuant to their own separate licenses. Contributions are subject to the [Developer Certificate of Origin, Version 1.1 (DCO)](https://developercertificate.org/) and the [Apache Software License, Version 2](https://www.apache.org/licenses/LICENSE-2.0.txt).
+
+[Apache Software License (ASL) FAQ](https://www.apache.org/foundation/license-faq.html#WhatDoesItMEAN)
