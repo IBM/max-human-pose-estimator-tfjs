@@ -1,4 +1,4 @@
-# MAX Human Pose Estimator TensorFLow.js: Veremax
+# MAX Human Pose Estimator TensorFlow.js: Veremax
 
 Veremax is a video theremin that allows anyone to make music just by waving their arms in front of a webcam.
 
@@ -18,21 +18,12 @@ Browsers must allow [access to the webcam](https://caniuse.com/#feat=stream) and
 1. [Tone.js](https://tonejs.github.io/) - a framework for creating interactive music in the browser
 
 
-## Live demo
-
-To try the Veremax without installing anything, simply visit:
-
-https://github.ibm.com/va/max-human-pose-estimator-tfjs
-
-For best results, you may want to use the Chrome browser and have a MIDI synthesizer (hardware or software) connected.
-
-
 ## Running the application
 
 You can run your own instance of Veremax in multiple ways:
 
 - [Deploy to IBM Cloud](https://github.ibm.com/va/max-human-pose-estimator-tfjs#deploy-to-ibm-cloud)
-- [Run locally](https://github.ibm.com/va/max-human-pose-estimator-tfjs#deploy-to-ibm-cloud)
+- [Run locally](https://github.ibm.com/va/max-human-pose-estimator-tfjs#run-locally)
 
 ### Deploy to IBM Cloud
 
@@ -132,7 +123,7 @@ Click on the Controls icon (top right) to open the control panel. In the control
 
 ## Converting the model
 
-The converted MAX Human Pose Estimator model can be found in the [`model`](https://github.ibm.com/va/max-human-pose-estimator-tfjs/model) directory. To convert the model to the TensorFlow.js web friendly format the following steps were taken:
+The converted MAX Human Pose Estimator model can be found in the [`model`](https://github.ibm.com/va/max-human-pose-estimator-tfjs/tree/master/model) directory. To convert the model to the TensorFlow.js web friendly format the following steps were taken:
 
 1. Install [tensorflowjs](https://pypi.org/project/tensorflowjs) Python module
 1. Download and extract the pre-trained [Human Pose Estimator model](http://max-assets.s3-api.us-geo.objectstorage.softlayer.net/human-pose-estimator/1.0/assets.tar.gz)
