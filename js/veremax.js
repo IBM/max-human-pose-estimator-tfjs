@@ -72,8 +72,8 @@ function preprocessInput (imageOrVideoInput) {
 }
 
 /**
- * Feeds an image to the model to estimate poses - this is where the magic happens.
- * This function loops with a requestAnimationFrame method.
+ * Feeds an image frame from a video to the model to estimate poses
+ * Looping through frames with `tf.nextFrame()`
  */
 const detectPoseInRealTime = function (video) {
   resetVideoCanvasSize(video)
@@ -104,20 +104,20 @@ const detectPoseInRealTime = function (video) {
       drawBox(zoneWidth, ZONEOFFSET, overlayWidth - ZONEOFFSET, zoneHeight, canvasCtx)
     }
 
-    // For each pose (i.e. person) detected in an image, loop through the poses and
-    // draw the resulting skeleton and keypoints and send data to play corresponding note
+    // determine the main figure in frame (i.e., person most centered in the image)
     const noseId = cocoParts.indexOf('Nose')
     const neckId = cocoParts.indexOf('Neck')
     const mainPose = poses.sort((p1, p2) => {
       let a = p1.bodyParts.filter(bp => bp.partId === noseId || bp.partId === neckId)
       let b = p2.bodyParts.filter(bp => bp.partId === noseId || bp.partId === neckId)
       if (a.length && b.length) {
-        return a[0].x - b[0].x
+        return Math.abs(zoneWidth - a[0].x) - Math.abs(zoneWidth - b[0].x)
       } else {
         return a.length - b.length
       }
     })[0]
 
+    // draw the skeleton for the pose detected and trigger note playing
     if (mainPose) {
       const leftWrist = mainPose.bodyParts.filter(bp => bp.partName === LEFTWRIST)[0]
       const rightWrist = mainPose.bodyParts.filter(bp => bp.partName === RIGHTWRIST)[0]
