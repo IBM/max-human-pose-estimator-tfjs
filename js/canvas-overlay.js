@@ -12,9 +12,9 @@ const pointRadius = 4
  * @param {Integer} y - the vertical value of point
  * @param {String} c - the color value for point
  */
-function drawPoint (canvasCtx, x, y, c = 'black') {
+function drawPoint (canvasCtx, x, y, c = 'black', sx = 1, sy = 1) {
   canvasCtx.beginPath()
-  canvasCtx.arc(x, y, pointRadius, 0, 2 * Math.PI)
+  canvasCtx.arc(x * sx, y * sy, pointRadius, 0, 2 * Math.PI)
   canvasCtx.fillStyle = c
   canvasCtx.fill()
 }
@@ -29,10 +29,10 @@ function drawPoint (canvasCtx, x, y, c = 'black') {
  * @param {Integer} y2 - the vertical value of first point
  * @param {String} c - the color value for line
  */
-function drawLine (canvasCtx, x1, y1, x2, y2, c = 'black') {
+function drawLine (canvasCtx, x1, y1, x2, y2, c = 'black', sx = 1, sy = 1) {
   canvasCtx.beginPath()
-  canvasCtx.moveTo(x1, y1)
-  canvasCtx.lineTo(x2, y2)
+  canvasCtx.moveTo(x1 * sx, y1 * sy)
+  canvasCtx.lineTo(x2 * sx, y2 * sy)
   canvasCtx.lineWidth = lineWidth
   canvasCtx.strokeStyle = c
   canvasCtx.stroke()
@@ -45,10 +45,10 @@ function drawLine (canvasCtx, x1, y1, x2, y2, c = 'black') {
  * @param {Array} poseLines - array of coordinates corresponding to the pose lines
  * @param {Array} colors - array of RGB values of colors to use for drawing pose lines
  */
-export function drawPoseLines (ctx, poseLines, colors) {
+export function drawPoseLines (ctx, poseLines, colors, scale = [1, 1]) {
   poseLines.forEach((l, j) => {
     let color = `rgb(${colors[j].join()})`
-    drawLine(ctx, ...l, color)
+    drawLine(ctx, ...l, color, scale[0], scale[1])
   })
 }
 
@@ -60,11 +60,11 @@ export function drawPoseLines (ctx, poseLines, colors) {
  * @param {Array} partsToDraw - array of the body parts to daw
  * @param {Array} colors - array of RGB values of colors to use for drawing pose lines
  */
-export function drawBodyParts (ctx, bodyParts, partsToDraw, colors) {
+export function drawBodyParts (ctx, bodyParts, partsToDraw, colors, scale = [1, 1]) {
   bodyParts.forEach(p => {
     if (!partsToDraw || partsToDraw.includes(p.partName)) {
       let color = `rgb(${colors[p.partId]})`
-      drawPoint(ctx, p.x, p.y, color)
+      drawPoint(ctx, p.x, p.y, color, scale[0], scale[1])
     }
   })
 }

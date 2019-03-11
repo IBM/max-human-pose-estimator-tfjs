@@ -12,17 +12,23 @@ const MODELURL = '/model/model.json'
 const LEFTWRIST = 'LWrist'
 const RIGHTWRIST = 'RWrist'
 
-const TARGETSIZE = {
+const ZONEOFFSET = 5
+const ZONEHEIGHTFACTOR = 0.7
+const ZONEWIDTHFACTOR = 0.5
+
+const VIDEOSIZE = {
   width: 432,
   height: 338
 }
-const ZONEOFFSET = 10
-const ZONEFACTOR = 0.7
+const VIDEOZONE = {
+  width: VIDEOSIZE.width * ZONEWIDTHFACTOR,
+  height: VIDEOSIZE.height * ZONEHEIGHTFACTOR
+}
 
-let overlayWidth = 800
-let overlayHeight = 600
-let zoneWidth = overlayWidth * 0.5
-let zoneHeight = overlayHeight * ZONEFACTOR
+let overlaySize = {
+  width: 800,
+  height: 600
+}
 
 let openposeModel = null
 let waveCtx = null
@@ -35,25 +41,18 @@ const setUserMedia = function () {
     navigator.mozGetUserMedia
 }
 
-const resetVideoCanvasSize = function (video, canvas) {
-  const size = preferredVideoSize(video)
-
-  overlayWidth = size.width
-  overlayHeight = size.height
-  zoneWidth = overlayWidth * 0.5
-  zoneHeight = overlayHeight * ZONEFACTOR
+const resetCanvasOverlaySize = function (video, canvas) {
+  overlaySize = preferredVideoSize(video)
 
   if (canvas) {
-    canvas.setAttribute('width', overlayWidth)
-    canvas.setAttribute('height', overlayHeight)
-    // video.setAttribute('width', overlayWidth)
-    // video.setAttribute('height', overlayHeight)
+    canvas.setAttribute('width', overlaySize.width)
+    canvas.setAttribute('height', overlaySize.height)
   }
 }
 
 const resize = function () {
   const video = document.getElementById('video')
-  resetVideoCanvasSize(video, canvas)
+  resetCanvasOverlaySize(video, canvas)
 }
 
 /**
@@ -77,9 +76,9 @@ function preprocessInput (imageOrVideoInput) {
  * Looping through frames with `tf.nextFrame()`
  */
 const detectPoseInRealTime = function (video) {
-  resetVideoCanvasSize(video)
-  canvas.width = overlayWidth
-  canvas.height = overlayHeight
+  resetCanvasOverlaySize(video)
+  canvas.width = overlaySize.width
+  canvas.height = overlaySize.height
 
   async function poseDetectionFrame () {
     let inputTensor = preprocessInput(video)
@@ -88,21 +87,21 @@ const detectPoseInRealTime = function (video) {
 
     let poses = estimatePoses(outputTensor)
 
-    canvasCtx.clearRect(0, 0, overlayWidth, overlayHeight)
+    canvasCtx.clearRect(0, 0, overlaySize.width, overlaySize.height)
 
     if (guiState.canvas.showVideo) {
       canvasCtx.save()
       canvasCtx.scale(-1, 1)
-      canvasCtx.translate(-overlayWidth, 0)
-      canvasCtx.drawImage(video, 0, 0, overlayWidth, overlayHeight)
+      canvasCtx.translate(-overlaySize.width, 0)
+      canvasCtx.drawImage(video, 0, 0, overlaySize.width, overlaySize.height)
       canvasCtx.restore()
     }
 
     if (guiState.canvas.showZones) {
       // draw left zone
-      drawBox(ZONEOFFSET, ZONEOFFSET, zoneWidth, zoneHeight, canvasCtx)
+      drawBox(ZONEOFFSET, ZONEOFFSET, (overlaySize.width * ZONEWIDTHFACTOR), (overlaySize.height * ZONEHEIGHTFACTOR), canvasCtx)
       // draw right zone
-      drawBox(zoneWidth, ZONEOFFSET, overlayWidth - ZONEOFFSET, zoneHeight, canvasCtx)
+      drawBox(ZONEOFFSET, ZONEOFFSET, (overlaySize.width - ZONEOFFSET), (overlaySize.height * ZONEHEIGHTFACTOR), canvasCtx)
     }
 
     // determine the main figure in frame (i.e., person most centered in the image)
@@ -112,7 +111,7 @@ const detectPoseInRealTime = function (video) {
       let a = p1.bodyParts.filter(bp => bp.partId === noseId || bp.partId === neckId)
       let b = p2.bodyParts.filter(bp => bp.partId === noseId || bp.partId === neckId)
       if (a.length && b.length) {
-        return Math.abs(zoneWidth - a[0].x) - Math.abs(zoneWidth - b[0].x)
+        return Math.abs(VIDEOZONE.width - a[0].x) - Math.abs(VIDEOZONE.width - b[0].x)
       } else {
         return a.length - b.length
       }
@@ -141,8 +140,8 @@ const detectPoseInRealTime = function (video) {
         playNote(0, 0)
       }
 
-      drawBodyParts(canvasCtx, mainPose.bodyParts, [LEFTWRIST, RIGHTWRIST], cocoColors)
-      drawPoseLines(canvasCtx, mainPose.poseLines, cocoColors)
+      drawBodyParts(canvasCtx, mainPose.bodyParts, [LEFTWRIST, RIGHTWRIST], cocoColors, [overlaySize.width / VIDEOSIZE.width, overlaySize.height / VIDEOSIZE.height])
+      drawPoseLines(canvasCtx, mainPose.poseLines, cocoColors, [overlaySize.width / VIDEOSIZE.width, overlaySize.height / VIDEOSIZE.height])
     }
 
     if (guiState.canvas.showWaveform) {
@@ -168,10 +167,10 @@ const normalizePositions = function (leftWrist, rightWrist) {
   const rightZone = leftWrist
 
   const leftEdge = ZONEOFFSET
-  const verticalSplit = zoneWidth
-  const rightEdge = overlayWidth - ZONEOFFSET
+  const verticalSplit = VIDEOZONE.width
+  const rightEdge = overlaySize.width - ZONEOFFSET
   const topEdge = ZONEOFFSET
-  const bottomEdge = zoneHeight
+  const bottomEdge = VIDEOZONE.height
 
   let position = {
     right: {
@@ -228,7 +227,7 @@ const bindPage = async function () {
   let video
 
   try {
-    video = await loadVideo('video', TARGETSIZE)
+    video = await loadVideo('video', VIDEOSIZE)
     await setupGui([])
     body.className = 'ready'
     detectPoseInRealTime(video)

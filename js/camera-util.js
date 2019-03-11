@@ -54,8 +54,34 @@ async function setupCamera (domNode = 'video', size) {
 
 export const preferredVideoSize = function (video) {
   let size = {
-    width: 432, // window.innerWidth,
-    height: 338 // window.innerHeight
+    width: window.innerWidth,
+    height: window.innerHeight
+  }
+
+  const w = Math.min(window.innerWidth, 1400)
+  const h = Math.min(window.innerHeight, 1400)
+  let vw = 800
+  let vh = 600
+
+  if (video) {
+    vw = video.videoWidth
+    vh = video.videoHeight
+  }
+
+  const videoRatio = vw / vh
+
+  if (w / vw < h / vh) {
+    let width = w < 400 ? w : (w < 600 ? w * 0.85 : w * 0.7)
+    size = {
+      width: width,
+      height: width / videoRatio
+    }
+  } else {
+    let height = h < 300 ? h : (h < 450 ? h * 0.85 : h * 0.7)
+    size = {
+      height: height,
+      width: height * videoRatio
+    }
   }
 
   return size

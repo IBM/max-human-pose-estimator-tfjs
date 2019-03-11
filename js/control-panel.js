@@ -11,7 +11,7 @@ const DEFAULTCHORDS = 'minor0'
 export let guiState = {
   outputDevice: 'browser',
   chordIntervals: 'default',
-  noteDuration: 300,
+  noteDuration: 400,
   browser: {
     preset: 'default'
   },
