@@ -7,8 +7,7 @@ import { playNote, getMidiDevices, getAnalyzerValue } from './audio-controller.j
 import { drawBodyParts, drawPoseLines, drawBox, drawWave } from './canvas-overlay.js'
 import { guiState, setupGui } from './control-panel.js'
 
-const MODELURL = '/model/tensorflowjs_model.pb'
-// const WEIGHTSURL = '/model/weights_manifest.json'
+const MODELURL = '/model/model.json'
 
 const LEFTWRIST = 'LWrist'
 const RIGHTWRIST = 'RWrist'
@@ -63,12 +62,14 @@ const resize = function () {
  * @param {HTMLImageElement|HTMLVideoElement} imageOrVideoInput - the image or video element
  */
 function preprocessInput (imageOrVideoInput) {
-  // create tensor from input element
-  return tf.browser
-    .fromPixels(imageOrVideoInput)
-    .reverse(1) // reverse since images are being fed from a webcam
-    .toFloat()
-    .expandDims()
+  return tf.tidy(() => {
+    // create tensor from input element
+    return tf.browser
+      .fromPixels(imageOrVideoInput)
+      .reverse(1) // reverse since images are being fed from a webcam
+      .toFloat()
+      .expandDims()
+  })
 }
 
 /**
@@ -219,7 +220,7 @@ const computePercentage = function (value, low, high) {
  * available camera devices, and setting off the detectPoseInRealTime function.
  */
 const bindPage = async function () {
-  // https://js.tensorflow.org/api/latest/#loadGraphModel
+  // https://js.tensorflow.org/api/1.0.0/#loadGraphModel
   openposeModel = await tf.loadGraphModel(MODELURL)
 
   const body = document.getElementsByTagName('body')[0]
