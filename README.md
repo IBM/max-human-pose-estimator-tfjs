@@ -16,8 +16,8 @@ Browsers must allow [access to the webcam](https://caniuse.com/#feat=stream) and
 1. The Tensorflow web format model is exposed through an API
 1. User stands in front of webcam and moves their arm
 1. Web UI captures video frame and sends to the server
-1. Server receives the frames and sends to the model API.Model return a prediction of the estimated poses in the frame
-1. Web application process the prediction and overlays the skeleton of the estimated pose on the video. Web application converts position of the user's wrists from the estimated poses to MIDI note
+1. Server receives the frames and sends to the model API. Model returns a prediction of the estimated poses in the frame
+1. Web application process the prediction and overlays the skeleton of the estimated pose on the video and converts position of the user's wrists from the estimated poses to MIDI note
 1. MIDI note is sent to connected MIDI device or sound is played in the browser
 
 
@@ -35,7 +35,7 @@ Browsers must allow [access to the webcam](https://caniuse.com/#feat=stream) and
 
 ## Demo
 
-[![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/QSrRUw2RRqw/0.jpg)](https://youtu.be/QSrRUw2RRqw)
+[![Max Human Pose Estimator Demo](https://img.youtube.com/vi/QSrRUw2RRqw/0.jpg)](https://youtu.be/QSrRUw2RRqw)
 
 
 ## Steps
