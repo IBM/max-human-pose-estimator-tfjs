@@ -8,15 +8,16 @@ The web application attaches to the video stream from your web camera. The Human
 
 Browsers must allow [access to the webcam](https://caniuse.com/#feat=stream) and support the [Web Audio API](https://caniuse.com/#feat=audio-api). Optionally, to integrate with a MIDI device the browser will need to support the [Web MIDI API](https://caniuse.com/#feat=midi) (e.g., Chrome browser version 43 or later).
 
+![Architecture](docs/source/images/architecture.png)
 
 ## Flow
 
+1. The Human pose estimator model is converted to Tensorflow web format using Tensorflow.
+1. The Tensorflow web format model is exposed through an API
 1. User stands in front of webcam and moves their arm
-1. Web application captures video frame and sends to the model
-1. Model return a prediction of the estimated poses in the frame
-1. Web application process the prediction
-1. Web application overlays the skeleton of the estimated pose on the video
-1. Web application converts position of the user's wrists from the estimated poses to MIDI note
+1. Web UI captures video frame and sends to the server
+1. Server receives the frames and sends to the model API.Model return a prediction of the estimated poses in the frame
+1. Web application process the prediction and overlays the skeleton of the estimated pose on the video. Web application converts position of the user's wrists from the estimated poses to MIDI note
 1. MIDI note is sent to connected MIDI device or sound is played in the browser
 
 
@@ -35,7 +36,7 @@ Browsers must allow [access to the webcam](https://caniuse.com/#feat=stream) and
 
 ## Steps
 
-Ways to run the Veremax:
+There are two Ways to run the Veremax:
 
 - [Deploy to IBM Cloud](https://github.ibm.com/va/max-human-pose-estimator-tfjs#deploy-to-ibm-cloud)
 - [Run locally](https://github.ibm.com/va/max-human-pose-estimator-tfjs#run-locally)
@@ -183,6 +184,12 @@ The converted MAX Human Pose Estimator model can be found in the [`model`](https
 
 
 When the completed, the contents of **{json_model_dir}** will be the web friendly format of the Human Pose Estimator model for TensorFlow.js 1.x. And the **{pb_model_dir}** will be the web friendly format for TensorFlow.js 0.15.x.
+
+## Sample Output
+
+<video width="400" controls>
+    <source src="docs/source/videos/sample-output.mov" type="video/mp4">
+</video>
 
 
 ## Links
