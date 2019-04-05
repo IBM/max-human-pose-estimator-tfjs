@@ -33,6 +33,10 @@ Browsers must allow [access to the webcam](https://caniuse.com/#feat=stream) and
 * [Web Audio API](https://www.w3.org/TR/webaudio): A high-level Web API for processing and synthesizing audio in web applications
 * [Tone.js](https://tonejs.github.io/): A framework for creating interactive music in the browser
 
+## Demo
+
+[![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/QSrRUw2RRqw/0.jpg)](https://youtu.be/QSrRUw2RRqw)
+
 
 ## Steps
 
@@ -184,12 +188,6 @@ The converted MAX Human Pose Estimator model can be found in the [`model`](https
 
 
 When the completed, the contents of **{json_model_dir}** will be the web friendly format of the Human Pose Estimator model for TensorFlow.js 1.x. And the **{pb_model_dir}** will be the web friendly format for TensorFlow.js 0.15.x.
-
-## Sample Output
-
-<video width="400" controls>
-    <source src="docs/source/videos/sample-output.mov" type="video/mp4">
-</video>
 
 
 ## Links
