@@ -1,4 +1,4 @@
-# MAX Human Pose Estimator TensorFlow.js: Veremax
+# Create music using MAX human pose estimator and TensorFlow.js
 
 In this code pattern you will create music based on the movement of your arms in front of a webcam.
 
