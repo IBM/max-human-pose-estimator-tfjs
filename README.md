@@ -1,6 +1,6 @@
 # MAX Human Pose Estimator TensorFlow.js: Veremax
 
-Veremax is a video theremin that allows anyone to make music just by waving their arms in front of a webcam.
+In this code pattern you will create music based on the movement of your arms in front of a webcam.
 
 It is based on the [Veremin](https://github.com/vabarbosa/veremin) but modified to use the [Human Pose Estimator](https://developer.ibm.com/exchanges/models/all/max-human-pose-estimator) model from the [Model Asset eXchange (MAX)](https://developer.ibm.com/exchanges/models). The Human Pose Estimator model is [converted](https://github.ibm.com/va/max-human-pose-estimator-tfjs#converting-the-model) to the [TensorFlow.js](https://js.tensorflow.org) web-friendly format. It is a deep learning model trained to detect humans and their poses in a given image. 
 
