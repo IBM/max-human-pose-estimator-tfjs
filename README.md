@@ -4,7 +4,7 @@ In this code pattern you will create music based on the movement of your arms in
 
 It is based on the [Veremin](https://github.com/vabarbosa/veremin) but modified to use the [Human Pose Estimator](https://developer.ibm.com/exchanges/models/all/max-human-pose-estimator) model from the [Model Asset eXchange (MAX)](https://developer.ibm.com/exchanges/models). The Human Pose Estimator model is [converted](https://github.ibm.com/va/max-human-pose-estimator-tfjs#converting-the-model) to the [TensorFlow.js](https://js.tensorflow.org) web-friendly format. It is a deep learning model trained to detect humans and their poses in a given image. 
 
-The web application attaches to the video stream from your web camera. The Human Pose Estimator model is used to predict the location of your wrists within the video. The application takes the predictions and converts them to tones in the browser or to MIDI values which get sent to a connected MIDI device.
+The web application streams video from your web camera. The Human Pose Estimator model is used to predict the location of your wrists within the video. The application takes the predictions and converts them to tones in the browser or to MIDI values which get sent to a connected MIDI device.
 
 Browsers must allow [access to the webcam](https://caniuse.com/#feat=stream) and support the [Web Audio API](https://caniuse.com/#feat=audio-api). Optionally, to integrate with a MIDI device the browser will need to support the [Web MIDI API](https://caniuse.com/#feat=midi) (e.g., Chrome browser version 43 or later).
 
