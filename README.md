@@ -2,7 +2,7 @@
 
 In this code pattern you will create music based on the movement of your arms in front of a webcam.
 
-It is based on the [Veremin](https://github.com/vabarbosa/veremin) but modified to use the [Human Pose Estimator](https://developer.ibm.com/exchanges/models/all/max-human-pose-estimator) model from the [Model Asset eXchange (MAX)](https://developer.ibm.com/exchanges/models). The Human Pose Estimator model is [converted](https://github.ibm.com/va/max-human-pose-estimator-tfjs#converting-the-model) to the [TensorFlow.js](https://js.tensorflow.org) web-friendly format. It is a deep learning model trained to detect humans and their poses in a given image. 
+It is based on the [Veremin](https://github.com/vabarbosa/veremin) but modified to use the [Human Pose Estimator](https://developer.ibm.com/exchanges/models/all/max-human-pose-estimator) model from the [Model Asset eXchange (MAX)](https://developer.ibm.com/exchanges/models). The Human Pose Estimator model is trained  to detect humans and their poses in a given image. It is [converted](https://github.ibm.com/va/max-human-pose-estimator-tfjs#converting-the-model) to the [TensorFlow.js](https://js.tensorflow.org) web-friendly format.
 
 The web application streams video from your web camera. The Human Pose Estimator model is used to predict the location of your wrists within the video. The application takes the predictions and converts them to tones in the browser or to MIDI values which get sent to a connected MIDI device.
 
@@ -18,8 +18,8 @@ Browsers must allow [access to the webcam](https://caniuse.com/#feat=stream) and
 1. Web application loads the TensorFlow.js model.
 1. User stands in front of webcam and moves their arm.
 1. Web application captures video frame and sends to the TensorFlow.js model. Model returns a prediction of the estimated poses in the frame.
-1. Web application process the prediction and overlays the skeleton of the estimated pose on Web UI
-1. Web application converts position of the user's wrists from the estimated pose to MIDI note and MIDI note is sent to connected MIDI device or sound is played in the browser
+1. Web application processes the prediction and overlays the skeleton of the estimated pose on the Web UI.
+1. Web application converts position of the user's wrists from the estimated pose to a MIDI message and message is sent to a connected MIDI device or sound is played in the browser.
 
 ## Included Components
 
@@ -42,8 +42,8 @@ Browsers must allow [access to the webcam](https://caniuse.com/#feat=stream) and
 
 There are two Ways to run the Veremax:
 
-- [Deploy to IBM Cloud](https://github.ibm.com/va/max-human-pose-estimator-tfjs#deploy-to-ibm-cloud)
-- [Run locally](https://github.ibm.com/va/max-human-pose-estimator-tfjs#run-locally)
+- [Deploy to IBM Cloud](https://github.com/IBM/max-human-pose-estimator-tfjs#deploy-to-ibm-cloud)
+- [Run locally](https://github.com/IBM/max-human-pose-estimator-tfjs#run-locally)
 
 ### Deploy to IBM Cloud
 
@@ -145,7 +145,7 @@ Click on the Controls icon (top right) to open the control panel. In the control
 
 ## Converting the model
 
-The converted MAX Human Pose Estimator model can be found in the [`model`](https://github.ibm.com/va/max-human-pose-estimator-tfjs/tree/master/model) directory. To convert the model to the TensorFlow.js web friendly format the following steps below.
+The converted MAX Human Pose Estimator model can be found in the [`model`](https://github.com/IBM/max-human-pose-estimator-tfjs/tree/master/model) directory. To convert the model to the TensorFlow.js web friendly format the following steps below.
 
 > **Note**: The Human Pose Estimator model is a frozen graph. The current version of the `tensorflowjs_converter` no longer supports frozen graph models. To convert frozen graphs it is recommended to use an older version of the Tensorflow.js converter (0.8.0) and then run the `pb2json` script from Tensorflow.js converter 1.x.
 
