@@ -12,14 +12,14 @@ Browsers must allow [access to the webcam](https://caniuse.com/#feat=stream) and
 
 ## Flow
 
-1. The Human pose estimator model is converted to Tensorflow web format using Tensorflow.
-1. The Tensorflow web format model is exposed through an API
-1. User stands in front of webcam and moves their arm
-1. Web UI captures video frame and sends to the server
-1. Server receives the frames and sends to the model API. Model returns a prediction of the estimated poses in the frame
-1. Web application process the prediction and overlays the skeleton of the estimated pose on the video and converts position of the user's wrists from the estimated poses to MIDI note
-1. MIDI note is sent to connected MIDI device or sound is played in the browser
 
+1. Human pose estimator model is converted to the TensorFlow.js web format using the Tensorflow.js converter.
+1. User launches the web application.
+1. Web application loads the TensorFlow.js model.
+1. User stands in front of webcam and moves their arm.
+1. Web application captures video frame and sends to the TensorFlow.js model. Model returns a prediction of the estimated poses in the frame.
+1. Web application process the prediction and overlays the skeleton of the estimated pose on Web UI
+1. Web application converts position of the user's wrists from the estimated pose to MIDI note and MIDI note is sent to connected MIDI device or sound is played in the browser
 
 ## Included Components
 
