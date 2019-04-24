@@ -7,7 +7,7 @@ import { playNote, getMidiDevices, getAnalyzerValue } from './audio-controller.j
 import { drawBodyParts, drawPoseLines, drawBox, drawWave } from './canvas-overlay.js'
 import { guiState, setupGui } from './control-panel.js'
 
-const MODELURL = '/model/model.json'
+const MODELURL = 'model/model.json'
 
 const LEFTWRIST = 'LWrist'
 const RIGHTWRIST = 'RWrist'
