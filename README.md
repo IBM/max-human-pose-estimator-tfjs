@@ -36,12 +36,14 @@ Browsers must allow [access to the webcam](https://caniuse.com/#feat=stream) and
 
 ## Demo
 
+[To try this application](https://github.com/IBM/max-human-pose-estimator-tfjs#using-the-app) without installing anything, simply visit [ibm.biz/veremax](https://ibm.biz/veremax) in a web browser that has access to a web camera and support for the Web Audio API.
+
 [![Max Human Pose Estimator Demo](https://img.youtube.com/vi/QSrRUw2RRqw/0.jpg)](https://youtu.be/QSrRUw2RRqw)
 
 
 ## Steps
 
-There are two Ways to run the Veremax:
+There are two ways to run your own Veremax:
 
 - [Deploy to IBM Cloud](https://github.com/IBM/max-human-pose-estimator-tfjs#deploy-to-ibm-cloud)
 - [Run locally](https://github.com/IBM/max-human-pose-estimator-tfjs#run-locally)
