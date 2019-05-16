@@ -148,9 +148,11 @@ Click on the Controls icon (top right) to open the control panel. In the control
 
 ## Converting the model
 
-The converted MAX Human Pose Estimator model can be found in the [`model`](https://github.com/IBM/max-human-pose-estimator-tfjs/tree/master/model) directory. To convert the model to the TensorFlow.js web friendly format the following steps below.
+The converted MAX Human Pose Estimator model is available [`here`](https://www.npmjs.com/package/@codait/max-human-pose-estimator), along with information on how to use the model in other applications.
 
-> **Note**: The Human Pose Estimator model is a frozen graph. The current version of the `tensorflowjs_converter` no longer supports frozen graph models. To convert frozen graphs it is recommended to use an older version of the Tensorflow.js converter (0.8.0) and then run the `pb2json` script from Tensorflow.js converter 1.x.
+Alternatively, you can convert the model to the TensorFlow.js web friendly format yourself following the steps below.
+
+> **Note**: The Human Pose Estimator model is a frozen graph. The later versions of the `tensorflowjs_converter` no longer supports frozen graph models. To [convert frozen graphs](https://github.com/tensorflow/tfjs-converter/blob/0.8.x/README.json.md) it is recommended to use an older version of the Tensorflow.js converter (0.8.0) with `--output_json=true` so the model assets can be in the format accepted by Tensorflow.js 1.x.
 
 1. Install the [tensorflowjs 0.8.0](https://pypi.org/project/tensorflowjs/0.8.0/) Python module
 1. Download and extract the pre-trained [Human Pose Estimator model](http://max-assets.s3.us.cloud-object-storage.appdomain.cloud/human-pose-estimator/1.0/assets.tar.gz)
@@ -160,37 +162,18 @@ The converted MAX Human Pose Estimator model can be found in the [`model`](https
     tensorflowjs_converter \
         --input_format=tf_frozen_model \
         --output_node_names='Openpose/concat_stage7' \
+        --output_json=true \
         {model_path} \
-        {pb_model_dir}
+        {output_dir}
     ```
 
     where
 
     - **{model_path}** is the path to the extracted model  
-    - **{pb_model_dir}** is the directory to save the converted model artifacts
+    - **{output_dir}** is the directory to save the converted model artifacts
     - **output_node_names** (`Openpose/concat_stage7`) is obtained by inspecting the model’s graph. One useful and easy-to-use visual tool for viewing machine learning models is [Netron](https://github.com/lutzroeder/Netron).
 
-1. Clone and install the `tfjs-converter` TypeScipt scripts
-
-    ```
-    $ git clone git@github.com:tensorflow/tfjs-converter.git
-    $ cd tfjs-converter
-    $ yarn
-    ```
-
-1. Run the `pb2json` script:
-
-    ```
-    yarn ts-node tools/pb2json_converter.ts {pb_model_dir}/ {json_model_dir}/
-    ```
-
-    where
-
-    - **{pb_model_dir}** is the directory to converted model artifacts from step 3
-    - **{json_model_dir}** is the directory to save the updated model artifacts
-
-
-When the completed, the contents of **{json_model_dir}** will be the web friendly format of the Human Pose Estimator model for TensorFlow.js 1.x. And the **{pb_model_dir}** will be the web friendly format for TensorFlow.js 0.15.x.
+When completed, the contents of **{output_dir}** will be the web friendly format of the Human Pose Estimator model for TensorFlow.js 1.x.
 
 
 ## Links

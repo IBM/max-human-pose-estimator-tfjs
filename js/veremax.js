@@ -1,13 +1,9 @@
-/* global tf */
+/* global tf, poseEstimator */
 
-import { cocoColors, cocoParts } from './coco-common.js'
-import { estimatePoses } from './pose-estimator.js'
 import { loadVideo, preferredVideoSize } from './camera-util.js'
 import { playNote, getMidiDevices, getAnalyzerValue } from './audio-controller.js'
 import { drawBodyParts, drawPoseLines, drawBox, drawWave } from './canvas-overlay.js'
 import { guiState, setupGui } from './control-panel.js'
-
-const MODELURL = 'model/model.json'
 
 const LEFTWRIST = 'LWrist'
 const RIGHTWRIST = 'RWrist'
@@ -30,7 +26,6 @@ let overlaySize = {
   height: 600
 }
 
-let openposeModel = null
 let waveCtx = null
 let canvas = null
 let canvasCtx = null
@@ -56,36 +51,23 @@ const resize = function () {
 }
 
 /**
- * convert image/video to Tensor input required by the model
- *
- * @param {HTMLImageElement|HTMLVideoElement} imageOrVideoInput - the image or video element
- */
-function preprocessInput (imageOrVideoInput) {
-  return tf.tidy(() => {
-    // create tensor from input element
-    return tf.browser
-      .fromPixels(imageOrVideoInput)
-      .reverse(1) // reverse since images are being fed from a webcam
-      .toFloat()
-      .expandDims()
-  })
-}
-
-/**
  * Feeds an image frame from a video to the model to estimate poses
  * Looping through frames with `tf.nextFrame()`
  */
 const detectPoseInRealTime = function (video) {
+  let cocoColors = poseEstimator.cocoUtil.colors
+  let cocoParts = poseEstimator.cocoUtil.parts
+
   resetCanvasOverlaySize(video)
   canvas.width = overlaySize.width
   canvas.height = overlaySize.height
 
   async function poseDetectionFrame () {
-    let inputTensor = preprocessInput(video)
-
-    let outputTensor = openposeModel.predict(inputTensor)
-
-    let poses = estimatePoses(outputTensor)
+    let poses = []
+    const prediction = await poseEstimator.predict(video, true)
+    if (prediction.posesDetected) {
+      poses = prediction.posesDetected
+    }
 
     canvasCtx.clearRect(0, 0, overlaySize.width, overlaySize.height)
 
@@ -219,8 +201,8 @@ const computePercentage = function (value, low, high) {
  * available camera devices, and setting off the detectPoseInRealTime function.
  */
 const bindPage = async function () {
-  // https://js.tensorflow.org/api/1.0.0/#loadGraphModel
-  openposeModel = await tf.loadGraphModel(MODELURL)
+  // https://github.com/CODAIT/max-tfjs-models/tree/master/human-pose-estimator
+  await poseEstimator.loadModel(true)
 
   const body = document.getElementsByTagName('body')[0]
 
