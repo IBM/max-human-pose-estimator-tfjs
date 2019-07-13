@@ -47,6 +47,7 @@ There are two ways to run your own Veremax:
 
 - [Deploy to IBM Cloud](https://github.com/IBM/max-human-pose-estimator-tfjs#deploy-to-ibm-cloud)
 - [Run locally](https://github.com/IBM/max-human-pose-estimator-tfjs#run-locally)
+- [Run in Docker](https://github.com/IBM/max-human-pose-estimator-tfjs#run-in-docker)
 
 ### Deploy to IBM Cloud
 
@@ -125,6 +126,48 @@ To run the app locally:
 
 1. From your browser, go to the Web Server's URL
 
+### Run in Docker
+
+Pre-requisite:
+
+- Install [Docker](https://www.docker.com/products/docker-desktop)
+
+From a terminal:
+
+1. Clone this repository
+
+   ```
+   $ git clone https://github.com/IBM/max-human-pose-estimator-tfjs
+   $ cd max-human-pose-estimator-tfjs
+   ```
+
+2. [Build the Docker image](https://docs.docker.com/engine/reference/commandline/build/)
+
+   ```
+   $ docker build -t veremax .
+   ```
+
+3. [Run the Docker container](https://docs.docker.com/engine/reference/commandline/run/)
+
+   ```
+   $ docker run -d -p 3000:80 veremax
+   ``` 
+
+4. In your browser, open [localhost:3000](http://localhost:3000) and enable the web camera
+
+To stop the Docker container. From a terminal:
+
+1. [Obtain the container id](https://docs.docker.com/engine/reference/commandline/ps/) for `veremax`
+
+   ```
+   $ docker ps
+   ``` 
+
+2. [Stop the Docker container](https://docs.docker.com/engine/reference/commandline/stop/) using the container id obtained above
+
+   ```
+   $ docker stop container_id  
+   ```
 
 ## Using the app
 
