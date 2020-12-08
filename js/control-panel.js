@@ -1,4 +1,4 @@
-/* global dat */
+/* global dat, poseEstimator */
 
 import { getMidiDevices, setPreferredDevice, getBrowserPresets, setPreferredPreset } from './audio-controller.js'
 import { chords } from './chord-intervals.js'
@@ -83,11 +83,17 @@ export async function setupGui (cameras, domNode = 'control-panel') {
   // Parameters to tweak the post processing of the prediction
   let postProcess = gui.addFolder('PostProcess')
   postProcess.add(guiState.postProcess, 'nmsWindowSize', 1, 20, 1)
+    .onChange(() => poseEstimator.config(guiState.postProcess))
   postProcess.add(guiState.postProcess, 'nmsThreshold', 0.001, 1, 0.005)
+    .onChange(() => poseEstimator.config(guiState.postProcess))
   postProcess.add(guiState.postProcess, 'localPAFThreshold', 0.001, 1, 0.005)
+    .onChange(() => poseEstimator.config(guiState.postProcess))
   postProcess.add(guiState.postProcess, 'partScoreThreshold', 0.001, 1, 0.005)
+    .onChange(() => poseEstimator.config(guiState.postProcess))
   postProcess.add(guiState.postProcess, 'pafCountThreshold', 1, 15, 1)
+    .onChange(() => poseEstimator.config(guiState.postProcess))
   postProcess.add(guiState.postProcess, 'partCountThreshold', 1, 10, 1)
+    .onChange(() => poseEstimator.config(guiState.postProcess))
 
   // Canvas overlay options
   let canvas = gui.addFolder('Canvas')
